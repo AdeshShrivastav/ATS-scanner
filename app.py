@@ -12,7 +12,7 @@ import google.generativeai as genai
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(input,pdf_cotent,prompt):
-    model=genai.GenerativeModel('gemini-pro-vision')
+    model=genai.GenerativeModel('gemini-1.5-flash')
     response=model.generate_content([input,pdf_content[0],prompt])
     return response.text
 
@@ -40,6 +40,8 @@ def input_pdf_setup(uploaded_file):
 
 ## Streamlit App
 
+
+
 st.set_page_config(page_title="ATS Resume EXpert")
 st.header("ATS Tracking System")
 input_text=st.text_area("Job Description: ",key="input")
@@ -50,20 +52,23 @@ if uploaded_file is not None:
     st.write("PDF Uploaded Successfully")
 
 
-submit = st.button("Percentage match")
 
 
+submit = st.button("Scan")
 
-input_prompt = """
+
+input_prompt2 = """
 You are an skilled ATS (Applicant Tracking System) scanner with a deep understanding of data science and ATS functionality, 
 your task is to evaluate the resume against the provided job description. give me the percentage of match if the resume matches
 the job description. First the output should come as percentage and then keywords missing and last final thoughts.
 """
 
+
+
 if submit:
     if uploaded_file is not None:
         pdf_content=input_pdf_setup(uploaded_file)
-        response=get_gemini_response(input_prompt,pdf_content,input_text)
+        response=get_gemini_response(input_prompt2,pdf_content,input_text)
         st.subheader("The Repsonse is")
         st.write(response)
     else:
@@ -72,7 +77,6 @@ if submit:
 
 
    
-
 
 
 
