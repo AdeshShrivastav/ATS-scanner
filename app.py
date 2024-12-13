@@ -7,6 +7,10 @@ import os
 import io
 from PIL import Image 
 import pdf2image
+
+path_to_poppler = r'path_to_poppler_binaries'  # Update this with the correct path
+
+
 import google.generativeai as genai
 
 genai.configure(api_key="AIzaSyAgsmSK5Fm3p9fV0wdu9J1ip07VwmycHk0")
@@ -19,7 +23,7 @@ def get_gemini_response(input,pdf_cotent,prompt):
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
         ## Convert the PDF to image
-        images=pdf2image.convert_from_bytes(uploaded_file.read())
+        images = pdf2image.convert_from_bytes(uploaded_file.read(), poppler_path=path_to_poppler)
 
         first_page=images[0]
 
